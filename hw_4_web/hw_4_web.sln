@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "hw_2_web", ".", "{1624740F-5260-B5EC-ECE9-6739FD4F2D75}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51329"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\Desktop\תואר ראשון\שנה ב\סמסטר ב\צד שרת\מטלות\מטלה 2\hw_2_web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51329\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51329"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\Desktop\תואר ראשון\שנה ב\סמסטר ב\צד שרת\מטלות\מטלה 2\hw_2_web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51329\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51329"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1624740F-5260-B5EC-ECE9-6739FD4F2D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1624740F-5260-B5EC-ECE9-6739FD4F2D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88FC41CD-237A-434D-9D7F-14E9BEA09701}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style2.css" />
+    <link rel="stylesheet" href="css/navBar.css" />
+    <link rel="stylesheet" href="css/rentingModal.css" />
+    <title>My Movies</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+
+    <script src="JS/clientMethods.js"></script>
+
+    <script>
+        $(document).ready(init);
+    </script>
+
+</head>
+<body>
+
+    <h1>Home Page - DB Of Movies</h1>
+
+    <div class="searchContainer">
+
+        <!-- Search by Title -->
+        <div class="search-section">
+            <form id="titleSearchForm">
+                <input name="movieSearch" type="text" placeholder="Search By Title">
+                <button type="button" id="titleSearchBTN" class="styled-button">Search</button>
+            </form>
+        </div>
+
+        <!-- Search by Date -->
+        <div id="searchByDate" class="search-section">
+            <label for="startDate">From:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">To:</label>
+            <input type="date" id="endDate">
+            <button type="button" id="searchDateBTN" class="styled-button">Search by Date</button>
+            <button type="button" id="resetDateBTN" class="styled-button">Reset</button>
+        </div>
+    </div>
+
+    <!--load DB movies-->
+    <div id="loadedMovies">
+        Movie Divs will be inserted Dynamically
+    </div>
+
+    <div id="pagination"></div>
+
+    <!--rent popup(Modal)-->
+    <div id="rentModal" class="rent-modal" style="display:none;">
+        <div class="rent-modal-content">
+            <span id="closeRentModal" class="close">&times;</span>
+            <h2>Rent Movie</h2>
+            <div id="rentMovieTitle" class="movie-title"></div>
+            <form id="rentForm" class="form">
+                <label for="rentStart">Start Date:</label>
+                <input type="date" id="rentStart" name="rentStart" required>
+                <label for="rentEnd">End Date:</label>
+                <input type="date" id="rentEnd" name="rentEnd" required>
+                <div id="rentTotalPrice" class="price-style2"></div>
+                <button type="submit" id="confirmRentBtn" class="styled-button-rent">Confirm Rent</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

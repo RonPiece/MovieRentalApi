@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style2.css" />
+    <link rel="stylesheet" href="css/rentingModal.css" />
+    <link rel="stylesheet" href="css/navBar.css" />
+    <title>My Movie Collection</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+
+    <script src="./JS/clientMethods.js"></script>
+
+    <script>
+        $(document).ready(init);
+    </script>
+
+</head>
+
+<body>
+    <h1>My Movies</h1>
+
+    <div id="loadedMovies">
+        <!-- Movie Divs will be inserted Dynamically -->
+    </div>
+
+    <div id="pagination"></div>
+
+    <!-- Transfer Rental Modal -->
+    <div id="transferModal" class="rent-modal" style="display:none;">
+        <div class="rent-modal-content">
+            <span id="closeTransferModal" class="close">&times;</span>
+            <h2>Transfer Movie Rental</h2>
+            <div id="transferMovieTitle" class="movie-title"></div>
+            <form id="transferForm" class="form">
+                <label for="recipientEmail">Recipient's Email:</label>
+                <input type="email" id="recipientEmail" name="recipientEmail" required>
+                <div id="transferError" class="error-message hidden"></div>
+                <button type="submit" id="confirmTransferBtn" class="styled-button-rent">Transfer Movie</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert Movies Once</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="JS/movies-db.js"></script> <!-- Your local movie data -->
+    <script src="JS/clientMethods.js"></script> <!-- Your existing client methods -->
+</head>
+<body>
+    <h1>Insert Movies to Server</h1>
+    <button id="insertMoviesBtn">Insert Movies</button>
+    <div id="status"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#insertMoviesBtn').click(async function () {
+                if (localStorage.getItem('moviesAlreadyInserted')) {
+                    $('#status').text("Movies have already been inserted.");
+                    return;
+                }
+
+                if (typeof movies === "undefined" || movies.length === 0) {
+                    $('#status').text("Movie list is empty or failed to load.");
+                    return;
+                }
+
+                let successCount = 0;
+                let errorCount = 0;
+                let counter = 0;
+
+                for (const movie of movies) {
+                    const newMovie = createMovie(movie);
+                    delete newMovie.Id;
+
+                    if (!newMovie.language && !newMovie.Language) {
+                        newMovie.language = "English";
+                    }
+
+                    if (newMovie) {
+                        try {
+                            const response = await fetch(`${backendBaseUrl}/Movie`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(newMovie)
+                            });
+
+                            if (response.ok) {
+                                successCount++;
+                            } else {
+                                const errorText = await response.text();
+                                console.log(`❌ Failed to insert movie #${counter + 1}: ${newMovie.PrimaryTitle}`);
+                                console.log("   Payload:", newMovie);
+                                console.log(`   Reason: ${errorText}`);
+                                errorCount++;
+                            }
+                        } catch (err) {
+                            console.log(`❌ Error sending movie #${counter + 1}: ${newMovie.PrimaryTitle}`);
+                            console.log(err);
+                            errorCount++;
+                        }
+                    } else {
+                        console.log(`⚠️ Skipped movie #${counter + 1} - createMovie returned null/undefined`);
+                        errorCount++;
+                    }
+
+                    counter++;
+                }
+
+                $('#status').text(`Finished inserting. Success: ${successCount}, Failed: ${errorCount}`);
+                localStorage.setItem('moviesAlreadyInserted', true);
+                $('#insertMoviesBtn').prop("disabled", true);
+            });
+        });
+    </script>
+
+</body>
+</html>

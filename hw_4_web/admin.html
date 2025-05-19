@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Management</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="css/navBar.css">
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+
+    <script src="./JS/clientMethods.js"></script>
+
+    <script>
+        $(document).ready(init);
+    </script>
+
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <div class="container">
+        <h1>User Management</h1>
+
+        <div class="user-accounts-container">
+            <h2>User Accounts</h2>
+            <div class="user-search-bar">
+                <input type="text" id="searchInput" placeholder="Search by name or email">
+                <button id="refreshUsersBtn" class="transferMovieBTN">&#x21bb;</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- User rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

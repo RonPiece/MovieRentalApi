@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style2.css" />
+    <link rel="stylesheet" href="css/navBar.css" />
+    <title>Add Movie</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="JS/clientMethods.js"></script>
+
+    <script>
+        $(document).ready(init);
+    </script>
+
+</head>
+<body>
+    <h1>Add Movie</h1>
+    <div id="addMovieContainer" class="form-container">
+        <form id="addMovieForm" class="form" autocomplete="off" novalidate>
+            <label for="url">URL:</label>
+            <input type="url" id="url" name="url">
+            <span id="urlError" class="error-message hidden"></span>
+
+            <label for="primaryTitle">Primary Title*:</label>
+            <input type="text" id="primaryTitle" name="primaryTitle" required>
+            <span id="primaryTitleError" class="error-message hidden"></span>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea>
+            <span id="descriptionError" class="error-message hidden"></span>
+
+            <label for="primaryImage">Primary Image URL*:</label>
+            <input type="url" id="primaryImage" name="primaryImage" required>
+            <span id="primaryImageError" class="error-message hidden"></span>
+
+            <label for="year">Year*:</label>
+            <input type="number" id="year" name="year" required>
+            <span id="yearError" class="error-message hidden"></span>
+
+            <label for="releaseDate">Release Date*:</label>
+            <input type="date" id="releaseDate" name="releaseDate" required>
+            <span id="releaseDateError" class="error-message hidden"></span>
+
+            <label for="language">Language*:</label>
+            <input list="languages" id="language" name="language" required>
+            <datalist id="languages">
+                <option value="English">
+                <option value="Spanish">
+                <option value="French">
+                <option value="German">
+                <option value="Italian">
+                <option value="Japanese">
+                <option value="Chinese">
+                <option value="Hindi">
+                <option value="Russian">
+            </datalist>
+            <span id="languageError" class="error-message hidden"></span>
+
+            <label for="budget">Budget (min 100,000):</label>
+            <input type="number" id="budget" name="budget" min="100000" step="0.01">
+            <span id="budgetError" class="error-message hidden"></span>
+
+            <label for="grossWorldwide">Gross Worldwide:</label>
+            <input type="number" id="grossWorldwide" name="grossWorldwide" step="0.01" value="0">
+            <span id="grossWorldwideError" class="error-message hidden"></span>
+
+            <label for="genres">Genres (comma separated)*:</label>
+            <input list="genresList" id="genres" name="genres" required>
+            <datalist id="genresList">
+                <option value="Action">
+                <option value="Adventure">
+                <option value="Comedy">
+                <option value="Drama">
+                <option value="Horror">
+                <option value="Romance">
+                <option value="SciFi">
+                <option value="Thriller">
+                <option value="Animation">
+            </datalist>
+            <span id="genresError" class="error-message hidden"></span>
+
+            <label for="isAdult">Is Adult:</label>
+            <input type="checkbox" id="isAdult" name="isAdult">
+
+            <label for="runtimeMinutes">Runtime Minutes*:</label>
+            <input type="number" id="runtimeMinutes" name="runtimeMinutes" required>
+            <span id="runtimeMinutesError" class="error-message hidden"></span>
+
+            <label for="averageRating">Average Rating:</label>
+            <input type="number" id="averageRating" name="averageRating" step="0.1" value="0">
+            <span id="averageRatingError" class="error-message hidden"></span>
+
+            <label for="numVotes">Number of Votes:</label>
+            <input type="number" id="numVotes" name="numVotes" value="0">
+            <span id="numVotesError" class="error-message hidden"></span>
+
+            <label for="priceToRent">Price To Rent*:</label>
+            <input type="number" id="priceToRent" name="priceToRent" min="1" step="0.01" required>
+            <span id="priceToRentError" class="error-message hidden"></span>
+
+            <button type="submit" class="styled-button">Add Movie</button>
+        </form>
+        <p id="addMovieError" class="error-message hidden"></p>
+    </div>
+</body>
+</html>
