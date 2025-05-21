@@ -27,7 +27,7 @@ if (isDevEnv()) {
     const frontendPort = location.port;
     indexUrl = `http://localhost:${frontendPort}/index.html`; // Development (localhost frontend)
 } else {
-    indexUrl = `https://proj.ruppin.ac.il/cgroup1/test2/tar2/index.html`; // Production (deployed frontend)
+    indexUrl = `https://proj.ruppin.ac.il/cgroup1/test2/tar3/index.html`; // Production (deployed frontend)
 }
 
 // Load movies functionality
