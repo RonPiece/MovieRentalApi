@@ -68,6 +68,21 @@ namespace hw4.Controllers
             if (request == null)
                 return BadRequest("Invalid rent request.");
 
+            // --- Backend Validation ---
+            // 1. Fetch the movie to check its release date
+            var movieToRent = Movie.GetMovieById(request.MovieId);
+            if (movieToRent == null)
+            {
+                return NotFound("Movie not found.");
+            }
+
+            // 2. Check if the movie's release date is in the future
+            if (movieToRent.ReleaseDate.Date > DateTime.Now.Date)
+            {
+                return BadRequest("Cannot rent a movie that has not been released yet.");
+            }
+            // --- End Validation ---
+
             // Map DTO to model
             RentMovie rental = new RentMovie
             {
@@ -166,83 +181,3 @@ namespace hw4.Controllers
 
     }
 }
-
-//    // Old contoller
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class MovieController : ControllerBase
-//    {
-//        // GET: api/Movie/search?title={title}
-//        [HttpGet("SearchByTitle")] 
-//        public IEnumerable<Movie> GetByTitle(string title)
-//        {
-//            return Movie.GetByTitle(title);
-//        }
-
-//        // GET: searchByRouting/startDate/{startDate}/endDate/{endDate}
-//        [HttpGet("searchByRouting/startDate/{startDate}/endDate/{endDate}")]
-//        public IEnumerable<Movie> GetByReleaseDate(DateTime startDate, DateTime endDate)
-//        {
-//            return Movie.GetByReleaseDate(startDate, endDate);  
-//        }
-
-//        // GET: api/Movie
-//        [HttpGet]
-//        public IEnumerable<Movie> Get()
-//        {
-//            return Movie.Read();
-//        }
-
-//        // GET: api/Movie/{id}
-//        [HttpGet("{id}")]
-//        public string Get(int id)
-//        {
-//            return "value";
-//        }
-
-//        // POST: api/Movie
-//        [HttpPost]
-//        public IActionResult Post([FromBody] Movie movie)
-//        {
-//            if (movie == null)
-//            {
-//                Console.WriteLine("Received null movie object.");
-//                return BadRequest("Invalid movie object.");
-//            }
-
-//            if (movie.Insert())
-//            {
-//                Console.WriteLine($"Movie added: ID = {movie.Id}, Title = {movie.PrimaryTitle}");
-//                return Ok(movie); // Return the complete movie object, including the generated ID
-//            }
-//            else
-//            {
-//                return BadRequest("Movie already exists or invalid data.");
-//            }
-//        }
-//        //[HttpPost]
-//        //public bool Post([FromBody] Movie movie)
-//        //{
-//        //    if (movie == null)
-//        //    {
-//        //        Console.WriteLine("Received null movie object.");
-//        //        return false;
-//        //    }
-
-//        //    Console.WriteLine($"Received movie: ID = {movie.Id}, Title = {movie.PrimaryTitle}");
-//        //    return movie.Insert();
-//        //}
-
-//        // PUT: api/Movie/{id}
-//        [HttpPut("{id}")]
-//        public void Put(int id, [FromBody]string value)
-//        {
-//        }
-
-//        // DELETE: api/Movie/{id}
-//        [HttpDelete("{id}")]
-//        public bool Delete(int id)
-//        {
-//            return Movie.Delete(id);
-//        }

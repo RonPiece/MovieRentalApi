@@ -6,9 +6,9 @@ namespace hw4.Models
     public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
         public bool Active { get; set; }
         public DateTime? DeletedAt { get; set; } // The question mark means that the value can be NULL.
 
@@ -58,7 +58,7 @@ namespace hw4.Models
         }
 
         // Static methods
-        public static User Login(string email, string password)
+        public static User? Login(string email, string password)
         {
             DBservices dbs = new DBservices();
             return dbs.Login(email, password);

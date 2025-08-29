@@ -3,16 +3,16 @@
     public class Movie
     {
         public int Id { get; set; }
-        public string Url { get; set; }
-        public string PrimaryTitle { get; set; }
-        public string Description { get; set; }
-        public string PrimaryImage { get; set; }
+        public string Url { get; set; } = string.Empty;
+        public string PrimaryTitle { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string PrimaryImage { get; set; } = string.Empty;
         public int Year { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string Language { get; set; }
+        public string Language { get; set; } = string.Empty;
         public double Budget { get; set; }
         public double GrossWorldwide { get; set; }
-        public string Genres { get; set; }
+        public string Genres { get; set; } = string.Empty;
         public bool IsAdult { get; set; }
         public int RuntimeMinutes { get; set; }
         public float AverageRating { get; set; }
@@ -83,7 +83,7 @@
             return dbs.GetMoviesByReleaseDate(startDate, endDate);
         }
 
-        public static Movie GetMovieById(int id)
+        public static Movie? GetMovieById(int id)
         {
             DBservices dbs = new DBservices();
             return dbs.GetMovieById(id);

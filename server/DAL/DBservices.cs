@@ -5,7 +5,6 @@ using System.Data;
 using hw4.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-
 public class DBservices
 {
     public DBservices() { }
@@ -26,7 +25,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // Create the SqlCommand
     //--------------------------------------------------------------------------------------------------
-    private SqlCommand CreateCommandWithStoredProcedureGeneral(String spName, SqlConnection con, Dictionary<string, object> paramDic)
+    private SqlCommand CreateCommandWithStoredProcedureGeneral(string spName, SqlConnection con, Dictionary<string, object>? paramDic)
     {
         SqlCommand cmd = new SqlCommand()
         {
@@ -60,9 +59,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -91,9 +90,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -113,9 +112,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -133,9 +132,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -146,22 +145,22 @@ public class DBservices
         }
     }
 
-    public User Login(string email, string plainPassword)
+    public User? Login(string email, string plainPassword)
     {
         email = email.Trim();
         plainPassword = plainPassword.Trim();
 
         SqlConnection con;
         SqlCommand cmd;
-        User user = null;
+        User? user = null;
 
         try
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -177,14 +176,14 @@ public class DBservices
 
             if (reader.Read())
             {
-                string hashedPassword = reader["Password"].ToString();
-                if (BCrypt.Net.BCrypt.Verify(plainPassword, hashedPassword))
+                string? hashedPassword = reader["Password"].ToString();
+                if (hashedPassword != null && BCrypt.Net.BCrypt.Verify(plainPassword, hashedPassword))
                 {
                     user = new User
                     {
                         Id = (int)reader["Id"],
-                        Name = reader["Name"].ToString(),
-                        Email = reader["Email"].ToString(),
+                        Name = reader["Name"].ToString() ?? string.Empty,
+                        Email = reader["Email"].ToString() ?? string.Empty,
                         Password = hashedPassword,
                         Active = (bool)reader["Active"], 
                         DeletedAt = reader["DeletedAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["DeletedAt"]
@@ -195,9 +194,9 @@ public class DBservices
             reader.Close();
             return user;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -217,9 +216,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -237,9 +236,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -259,9 +258,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -277,9 +276,9 @@ public class DBservices
             int affectedRows = cmd.ExecuteNonQuery();
             return affectedRows;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -297,9 +296,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -317,9 +316,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -339,9 +338,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -356,9 +355,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -378,9 +377,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -395,9 +394,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -417,9 +416,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -435,9 +434,9 @@ public class DBservices
             int affectedRows = cmd.ExecuteNonQuery();
             return affectedRows;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -456,9 +455,9 @@ public class DBservices
         {
             con = connect("myProjDB");  
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -478,16 +477,16 @@ public class DBservices
                 Movie movie = new Movie
                 {
                     Id = (int)reader["Id"],
-                    Url = reader["Url"].ToString(),
-                    PrimaryTitle = reader["PrimaryTitle"].ToString(),
-                    Description = reader["Description"].ToString(),
-                    PrimaryImage = reader["PrimaryImage"].ToString(),
+                    Url = reader["Url"].ToString() ?? string.Empty,
+                    PrimaryTitle = reader["PrimaryTitle"].ToString() ?? string.Empty,
+                    Description = reader["Description"].ToString() ?? string.Empty,
+                    PrimaryImage = reader["PrimaryImage"].ToString() ?? string.Empty,
                     Year = (int)reader["Year"],
                     ReleaseDate = ((DateTime)reader["ReleaseDate"]).Date,
-                    Language = reader["Language"].ToString(),
+                    Language = reader["Language"].ToString() ?? string.Empty,
                     Budget = Convert.ToDouble(reader["Budget"]),
                     GrossWorldwide = Convert.ToDouble(reader["GrossWorldwide"]),
-                    Genres = reader["Genres"].ToString(),
+                    Genres = reader["Genres"].ToString() ?? string.Empty,
                     IsAdult = (bool)reader["IsAdult"],
                     RuntimeMinutes = (int)reader["RuntimeMinutes"],
                     AverageRating = Convert.ToSingle(reader["AverageRating"]),
@@ -504,9 +503,9 @@ public class DBservices
 
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -530,9 +529,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -551,16 +550,16 @@ public class DBservices
                 Movie movie = new Movie
                 {
                     Id = (int)reader["Id"],
-                    Url = reader["Url"].ToString(),
-                    PrimaryTitle = reader["PrimaryTitle"].ToString(),
-                    Description = reader["Description"].ToString(),
-                    PrimaryImage = reader["PrimaryImage"].ToString(),
+                    Url = reader["Url"].ToString() ?? string.Empty,
+                    PrimaryTitle = reader["PrimaryTitle"].ToString() ?? string.Empty,
+                    Description = reader["Description"].ToString() ?? string.Empty,
+                    PrimaryImage = reader["PrimaryImage"].ToString() ?? string.Empty,
                     Year = (int)reader["Year"],
                     ReleaseDate = (DateTime)reader["ReleaseDate"],
-                    Language = reader["Language"].ToString(),
+                    Language = reader["Language"].ToString() ?? string.Empty,
                     Budget = Convert.ToDouble(reader["Budget"]),
                     GrossWorldwide = Convert.ToDouble(reader["GrossWorldwide"]),
-                    Genres = reader["Genres"].ToString(),
+                    Genres = reader["Genres"].ToString() ?? string.Empty,
                     IsAdult = (bool)reader["IsAdult"],
                     RuntimeMinutes = (int)reader["RuntimeMinutes"],
                     AverageRating = Convert.ToSingle(reader["AverageRating"]),
@@ -579,9 +578,9 @@ public class DBservices
 
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -592,19 +591,19 @@ public class DBservices
         return (movies, totalCount);
     }
 
-    public Movie GetMovieById(int movieId)
+    public Movie? GetMovieById(int movieId)
     {
         SqlConnection con;
         SqlCommand cmd;
-        Movie movie = null;
+        Movie? movie = null;
 
         try
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -622,16 +621,16 @@ public class DBservices
                 movie = new Movie
                 {
                     Id = (int)reader["Id"],
-                    Url = reader["Url"].ToString(),
-                    PrimaryTitle = reader["PrimaryTitle"].ToString(),
-                    Description = reader["Description"].ToString(),
-                    PrimaryImage = reader["PrimaryImage"].ToString(),
+                    Url = reader["Url"].ToString() ?? string.Empty,
+                    PrimaryTitle = reader["PrimaryTitle"].ToString() ?? string.Empty,
+                    Description = reader["Description"].ToString() ?? string.Empty,
+                    PrimaryImage = reader["PrimaryImage"].ToString() ?? string.Empty,
                     Year = (int)reader["Year"],
                     ReleaseDate = (DateTime)reader["ReleaseDate"],
-                    Language = reader["Language"].ToString(),
+                    Language = reader["Language"].ToString() ?? string.Empty,
                     Budget = Convert.ToDouble(reader["Budget"]),
                     GrossWorldwide = Convert.ToDouble(reader["GrossWorldwide"]),
-                    Genres = reader["Genres"].ToString(),
+                    Genres = reader["Genres"].ToString() ?? string.Empty,
                     IsAdult = (bool)reader["IsAdult"],
                     RuntimeMinutes = (int)reader["RuntimeMinutes"],
                     AverageRating = Convert.ToSingle(reader["AverageRating"]),
@@ -642,9 +641,9 @@ public class DBservices
             }
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -665,9 +664,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -686,16 +685,16 @@ public class DBservices
                 Movie movie = new Movie
                 {
                     Id = (int)reader["Id"],
-                    Url = reader["Url"].ToString(),
-                    PrimaryTitle = reader["PrimaryTitle"].ToString(),
-                    Description = reader["Description"].ToString(),
-                    PrimaryImage = reader["PrimaryImage"].ToString(),
+                    Url = reader["Url"].ToString() ?? string.Empty,
+                    PrimaryTitle = reader["PrimaryTitle"].ToString() ?? string.Empty,
+                    Description = reader["Description"].ToString() ?? string.Empty,
+                    PrimaryImage = reader["PrimaryImage"].ToString() ?? string.Empty,
                     Year = (int)reader["Year"],
                     ReleaseDate = (DateTime)reader["ReleaseDate"],
-                    Language = reader["Language"].ToString(),
+                    Language = reader["Language"].ToString() ?? string.Empty,
                     Budget = Convert.ToDouble(reader["Budget"]),
                     GrossWorldwide = Convert.ToDouble(reader["GrossWorldwide"]),
-                    Genres = reader["Genres"].ToString(),
+                    Genres = reader["Genres"].ToString() ?? string.Empty,
                     IsAdult = (bool)reader["IsAdult"],
                     RuntimeMinutes = (int)reader["RuntimeMinutes"],
                     AverageRating = Convert.ToSingle(reader["AverageRating"]),
@@ -708,9 +707,9 @@ public class DBservices
 
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -731,9 +730,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -753,16 +752,16 @@ public class DBservices
                 Movie movie = new Movie
                 {
                     Id = (int)reader["Id"],
-                    Url = reader["Url"].ToString(),
-                    PrimaryTitle = reader["PrimaryTitle"].ToString(),
-                    Description = reader["Description"].ToString(),
-                    PrimaryImage = reader["PrimaryImage"].ToString(),
+                    Url = reader["Url"].ToString() ?? string.Empty,
+                    PrimaryTitle = reader["PrimaryTitle"].ToString() ?? string.Empty,
+                    Description = reader["Description"].ToString() ?? string.Empty,
+                    PrimaryImage = reader["PrimaryImage"].ToString() ?? string.Empty,
                     Year = (int)reader["Year"],
                     ReleaseDate = (DateTime)reader["ReleaseDate"],
-                    Language = reader["Language"].ToString(),
+                    Language = reader["Language"].ToString() ?? string.Empty,
                     Budget = Convert.ToDouble(reader["Budget"]),
                     GrossWorldwide = Convert.ToDouble(reader["GrossWorldwide"]),
-                    Genres = reader["Genres"].ToString(),
+                    Genres = reader["Genres"].ToString() ?? string.Empty,
                     IsAdult = (bool)reader["IsAdult"],
                     RuntimeMinutes = (int)reader["RuntimeMinutes"],
                     AverageRating = Convert.ToSingle(reader["AverageRating"]),
@@ -775,9 +774,9 @@ public class DBservices
 
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -798,9 +797,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         cmd = CreateCommandWithStoredProcedureGeneral("SP_GetAllUsers", con, null);
@@ -814,19 +813,19 @@ public class DBservices
                 User user = new User
                 {
                     Id = (int)reader["Id"],
-                    Name = reader["Name"].ToString(),
-                    Email = reader["Email"].ToString(),
-                    Password = reader["Password"].ToString(),
+                    Name = reader["Name"].ToString() ?? string.Empty,
+                    Email = reader["Email"].ToString() ?? string.Empty,
+                    Password = reader["Password"].ToString() ?? string.Empty,
                     Active = (bool)reader["Active"],
-                    DeletedAt = reader["DeletedAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["DeletedAt"] // <-- Add this line
+                    DeletedAt = reader["DeletedAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["DeletedAt"]
                 };
                 users.Add(user);
             }
             reader.Close();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {
@@ -846,9 +845,9 @@ public class DBservices
         {
             con = connect("myProjDB");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>
@@ -864,9 +863,9 @@ public class DBservices
             int numEffected = cmd.ExecuteNonQuery();
             return numEffected;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            throw ex;
+            throw;
         }
         finally
         {

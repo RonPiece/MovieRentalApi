@@ -11,6 +11,7 @@ A learning project evolving through multiple homework phases: from in‑memory l
 | HW3 | Auth & Forms | Register/Login, validation (password, names), add-movie form with full field rules, authorization guarding pages |
 | HW4 | DB Integration | Replace static lists with SQL tables + Stored Procedures, rental entity, logical deletes (deletedAt), priceToRent, rentalCount |
 | HW5 (+ bonuses) | Advanced flows | Rental transfer, overlapping date validation, grossWorldwide accumulation, admin activation toggle, pagination, profile edit |
+| **Refactor** | **Code Hardening & Structure** | **Moved HTML files to a `pages` directory, enhanced JS routing, added backend null-safety, and improved exception handling.** |
 
 ## 2. Core Features
 
@@ -57,19 +58,20 @@ Shared:
 
 ```
 /README.md
-/frontend
-  index.html
-  MyMovies.html
-  addMovie.html
-  login.html
-  register.html
-  editProfile.html
-  admin.html
-  navbar.html
+/client
+  pages/
+    index.html
+    MyMovies.html
+    addMovie.html
+    login.html
+    register.html
+    editProfile.html
+    admin.html
+    navbar.html
   css/
   JS/
     clientMethods.js
-/backend
+/server
   hw4.csproj
   Program.cs
   Controllers/
@@ -129,7 +131,7 @@ User:
 
 Main orchestration & AJAX utilities: [`clientMethods.js`](client/JS/clientMethods.js)  
 Notable functions:
-- Initialization: [`init`](client/JS/clientMethods.js)
+- Initialization: [`init`](client/JS/clientMethods.js) (now with enhanced page detection for routing)
 - Generic AJAX: [`ajaxCall`](client/JS/clientMethods.js)
 - Movie loading & pagination: [`getAllMoviesListFromServer`](client/JS/clientMethods.js)
 - Search: [`searchMoviesByTitle`](client/JS/clientMethods.js)
@@ -143,14 +145,14 @@ Notable functions:
 
 Backend:
 ```
-cd backend
+cd server
 dotnet restore
 dotnet run
 ```
 Configure connection string + any Secrets (do not commit passwords).
 
 Frontend:
-- Open /frontend with Live Server or host via simple static server.
+- Open `/client` with Live Server or host via simple static server.
 - Ensure ports in [`clientMethods.js`](client/JS/clientMethods.js) (dev section) match backend HTTPS port.
 
 Database:
@@ -172,11 +174,14 @@ Movie Form:
 
 ## 11. Security Notes
 
-- Password should be hashed (e.g., SHA256 + salt or better: PBKDF2/BCrypt).
-- No secrets committed.
-- Logical deletes prevent renting deleted resources.
+- Passwords are hashed using BCrypt (per‑password salt + adaptive work factor) before persistence (see [`DBservices.Login`](server/DAL/DBservices.cs)); plaintext is never stored.
+- Secrets (connection strings, etc.) must be provided via environment / user secrets and not committed.
+- Logical deletes (deletedAt) prevent interaction with soft‑removed entities (e.g., renting deleted movies or by deleted users).
+- Improved exception handling on the backend prevents stack trace leakage by using `throw;` instead of `throw ex;`.
+- DTOs and Models are now more robust with null-safety checks and default values.
 
-## 12. Future Improvements
+
+## 12. Future Improvements ׂ(AI Recommendation)
 
 - JWT-based auth & refresh tokens
 - Role-based authorization

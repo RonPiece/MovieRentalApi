@@ -1,3 +1,5 @@
+// OLD FILE - NOW IS CONCECTED TO A REAL DATABASE
+
 const movies = [
     {
       "id": "tt0111161",

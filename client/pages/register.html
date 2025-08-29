@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style2.css" />
-    <link rel="stylesheet" href="css/navBar.css" />
-
-    <title>Login</title>
+    <link rel="stylesheet" href="../css/style2.css" />
+    <link rel="stylesheet" href="../css/navBar.css" />
+    <title>Register</title>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
             crossorigin="anonymous">
     </script>
 
-    <script src="JS/clientMethods.js"></script>
+    <script src="../JS/clientMethods.js"></script>
 
     <script>
         $(document).ready(init);
@@ -21,17 +20,19 @@
 
 </head>
 <body>
-    <h1>Login</h1>
-    <div id="loginContainer" class="form-container">
-        <form id="loginForm" class="form">
+    <h1>Register</h1>
+    <div id="registerContainer" class="form-container">
+        <form id="registerForm" class="form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit" class="styled-button">Login</button>
+            <button type="submit" class="styled-button">Register</button>
         </form>
-        <p id="loginError" class="error-message hidden"></p>
-        <p>New user? <a href="register.html" class="link">Register here</a></p>
+        <p id="registerError" class="error-message hidden"></p>
+        <p id="registerSuccess" class="success-message hidden"></p>
     </div>
 </body>
 </html>

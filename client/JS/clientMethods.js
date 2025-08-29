@@ -1,6 +1,6 @@
 // Function to check if the environment is development
 function isDevEnv() {
-    return location.host.includes('localhost');
+    return location.host.includes('localhost') || location.host.includes('127.0.0.1');
 }
 
 // Declare backendBaseUrl
@@ -25,9 +25,11 @@ const registerUrl = `${userApiBaseUrl}/register`;
 let indexUrl;
 if (isDevEnv()) {
     const frontendPort = location.port;
-    indexUrl = `http://localhost:${frontendPort}/index.html`; // Development (localhost frontend)
+    // More robust path generation
+    const path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+    indexUrl = `${window.location.protocol}//${window.location.hostname}:${frontendPort}${path}/index.html`;
 } else {
-    indexUrl = `https://proj.ruppin.ac.il/cgroup1/test2/tar3/index.html`; // Production (deployed frontend)
+    indexUrl = `https://proj.ruppin.ac.il/cgroup1/test2/tar3/pages/index.html`; // Production (deployed frontend)
 }
 
 // Load movies functionality
@@ -52,16 +54,16 @@ function init() {
 
     // Page-specific logic
     const path = window.location.pathname;
-    if (path.endsWith('MyMovies.html')) {
+    if (path.endsWith('/pages/MyMovies.html')) {
         loadMyRentedMovies();
         setupTransferModalEvents();
-    } else if (path.endsWith('index.html')) {
+    } else if (path.endsWith('/pages/index.html') || path === '/') {
         getAllMoviesListFromServer();
-    } else if (path.endsWith('addMovie.html')) {
+    } else if (path.endsWith('/pages/addMovie.html')) {
         initAddMovieForm();
-    } else if (path.endsWith('editProfile.html')) {
+    } else if (path.endsWith('/pages/editProfile.html')) {
         initEditProfileForm();
-    } else if (path.endsWith('admin.html')) {
+    } else if (path.endsWith('/pages/admin.html')) {
         initAdminPage();
     }
 }
@@ -157,17 +159,26 @@ function renderMovie(filteredMovieData, btnType) {
     movieDiv.append(upperDiv, lowerDiv);
 
     if (btnType === "addToCart") {
-        const addToCartBTN = $(`<button class="addToCartBTN">Rent me</button>`);
-        addToCartBTN.click(() => {
-            const loggedInUser = localStorage.getItem('loggedInUser');
-            if (!loggedInUser) {
-                alert("You must be logged in to rent.");
-                window.location.href = 'login.html';
-            } else {
-                openRentModal(filteredMovieData);
-            }
-        });
-        upperDiv.append(addToCartBTN);
+        const releaseDate = new Date(filteredMovieData.ReleaseDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize to compare dates only
+
+        if (releaseDate > today) {
+            const comingSoonBTN = $(`<button class="addToCartBTN" disabled>Coming Soon</button>`);
+            upperDiv.append(comingSoonBTN);
+        } else {
+            const addToCartBTN = $(`<button class="addToCartBTN">Rent me</button>`);
+            addToCartBTN.click(() => {
+                const loggedInUser = localStorage.getItem('loggedInUser');
+                if (!loggedInUser) {
+                    alert("You must be logged in to rent.");
+                    window.location.href = 'login.html';
+                } else {
+                    openRentModal(filteredMovieData);
+                }
+            });
+            upperDiv.append(addToCartBTN);
+        }
     }
 
     let transferBtn = null; // append tensferBtn only if exists
@@ -466,7 +477,7 @@ function loadMyRentedMovies() {
 function deleteFromServer(movieId, movieDiv) {
     const userId = localStorage.getItem('loggedInId');
     // Only allow delete if on MyMovies.html (rented movies)
-    if (window.location.pathname.endsWith('MyMovies.html')) {
+    if (window.location.pathname.endsWith('/pages/MyMovies.html')) {
         ajaxCall(
             "DELETE",
             `${backendBaseUrl}/Movie/rent/${userId}/${movieId}`,
@@ -500,7 +511,7 @@ function showGreeting() {
     const path = window.location.pathname;
     if (
         loggedInUser &&
-        (path.endsWith('index.html') || path.endsWith('MyMovies.html'))
+        (path.endsWith('/pages/index.html') || path.endsWith('/pages/MyMovies.html') || path === '/')
     ) {
         const greetingName = loggedInName || loggedInUser;
         const greeting = `<h2 class="greeting">Welcome, ${greetingName}!</h2>`;
@@ -518,10 +529,19 @@ function calculateRentPrice(start, end, pricePerDay) {
     return days * pricePerDay;
 }
 function openRentModal(movie) {
+    // Frontend validation to prevent renting unreleased movies
+    const releaseDate = new Date(movie.ReleaseDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (releaseDate > today) {
+        alert("This movie has not been released yet and cannot be rented.");
+        return; // Prevent modal from opening
+    }
+
     $("#rentMovieTitle").text(movie.PrimaryTitle);
 
     // Set start date to today in yyyy-mm-dd format
-    const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
@@ -739,7 +759,7 @@ function handleLogin(event) {
                 localStorage.setItem('loggedInId', response.id);
                 localStorage.setItem('loggedInUser', response.email);
                 localStorage.setItem('loggedInName', response.name);
-                window.location.href = indexUrl;
+                window.location.href = "index.html"; // Use relative path for simplicity and robustness
             }, 3500);
         } else {
             $('form#loginForm').after('<p class="login-message error-message">Invalid email or password. Please try again.</p>');
@@ -1023,8 +1043,11 @@ function checkAuthorization() {
     const loggedInUser = localStorage.getItem('loggedInUser'); // Check if the user is logged in
     const path = window.location.pathname; // Get the current page path
 
-    // If the user is not logged in and is not on the main page, redirect to the login page
-    if (!loggedInUser && !(path.endsWith('index.html') || path.endsWith('login.html') || path.endsWith('register.html'))) {
+    // Define public pages
+    const publicPages = ['/pages/index.html', '/pages/login.html', '/pages/register.html', '/'];
+
+    // If the user is not logged in and the current page is not public, redirect to login
+    if (!loggedInUser && !publicPages.some(p => path.endsWith(p))) {
         window.location.href = 'login.html'; // Redirect to the login page
     }
 }
