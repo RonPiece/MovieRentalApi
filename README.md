@@ -159,6 +159,8 @@ Database:
 - Run schema scripts (tables + SPs).
 - Seed movies using one-time loader page or bulk import.
 - Confirm priceToRent (10–30) and rentalCount defaults.
+- The database for movies is also available as JSON data in the [`movies-db.js`](client/JS/movies-db.js) file.  
+- Use the [`HtmlPage.html`](client/pages/HtmlPage.html) file to import this JSON data into the database. This page is designed for anyone who wants to try the project and populate the database with sample data.
 
 ## 10. Validation Rules (Highlights)
 
@@ -177,8 +179,6 @@ Movie Form:
 - Passwords are hashed using BCrypt (per‑password salt + adaptive work factor) before persistence (see [`DBservices.Login`](server/DAL/DBservices.cs)); plaintext is never stored.
 - Secrets (connection strings, etc.) must be provided via environment / user secrets and not committed.
 - Logical deletes (deletedAt) prevent interaction with soft‑removed entities (e.g., renting deleted movies or by deleted users).
-- Improved exception handling on the backend prevents stack trace leakage by using `throw;` instead of `throw ex;`.
-- DTOs and Models are now more robust with null-safety checks and default values.
 
 
 ## 12. Future Improvements ׂ(AI Recommendation)
@@ -197,12 +197,4 @@ Movie Form:
 - Stored Procedures: sp_<Entity>_<Action>
 - DTOs: <Entity><Purpose>Dto
 - Logical delete: set deletedAt NOT physical removal (except cascading requirement on rental table rows)
-
-## 14. Running in Production
-
-- Publish backend: `dotnet publish -c Release`
-- Host frontend as static site (same domain if possible to simplify CORS)
-- Enforce HTTPS
-- Adjust production base URLs in JS (already environment-aware)
-
 ---
